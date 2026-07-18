@@ -1,0 +1,132 @@
+// oneko.js - Cat chasing the mouse cursor animation
+// Original: https://github.com/adryd325/oneko.js
+// Adapted for portfolio use
+
+(function () {
+  const nekoEl = document.createElement("div");
+  let nekoPosX = 32, nekoPosY = 32;
+  let mousePosX = 0, mousePosY = 0;
+  let frameCount = 0, idleTime = 0, idleAnimation = null, idleAnimationFrame = 0;
+  const nekoSpeed = 10;
+
+  const spriteSets = {
+    idle: [[-3, -3]],
+    alert: [[-7, -3]],
+    scratchSelf: [[-5, 0], [-6, 0], [-7, 0]],
+    scratchWallN: [[0, 0], [0, -1]],
+    scratchWallS: [[-7, -1], [-6, -2]],
+    scratchWallE: [[-2, -2], [-2, -3]],
+    scratchWallW: [[-4, 0], [-4, -1]],
+    tired: [[-3, -2]],
+    sleeping: [[-2, 0], [-2, -1]],
+    N: [[-1, -2], [-1, -3]],
+    NE: [[0, -2], [0, -3]],
+    E: [[-3, 0], [-3, -1]],
+    SE: [[-5, -1], [-5, -2]],
+    S: [[-6, -3], [-7, -2]],
+    SW: [[-5, -3], [-6, -1]],
+    W: [[-4, -2], [-4, -3]],
+    NW: [[-1, 0], [-1, -1]],
+  };
+
+  function init() {
+    nekoEl.id = "oneko";
+    nekoEl.style.cssText = `
+      width: 32px; height: 32px;
+      position: fixed;
+      pointer-events: none;
+      image-rendering: pixelated;
+      left: ${nekoPosX - 16}px;
+      top: ${nekoPosY - 16}px;
+      z-index: 9999;
+      background-image: url("https://raw.githubusercontent.com/adryd325/oneko.js/main/oneko.gif");
+      background-size: 792px 792px;
+    `;
+    document.body.appendChild(nekoEl);
+
+    document.addEventListener("mousemove", (e) => {
+      mousePosX = e.clientX;
+      mousePosY = e.clientY;
+    });
+
+    window.requestAnimationFrame(onAnimationFrame);
+  }
+
+  let lastFrameTimestamp;
+  function onAnimationFrame(timestamp) {
+    if (!lastFrameTimestamp) lastFrameTimestamp = timestamp;
+    if (timestamp - lastFrameTimestamp > 100) {
+      lastFrameTimestamp = timestamp;
+      frame();
+    }
+    window.requestAnimationFrame(onAnimationFrame);
+  }
+
+  function setSprite(name, frame) {
+    const sprite = spriteSets[name][frame % spriteSets[name].length];
+    nekoEl.style.backgroundPosition = `${sprite[0] * 32}px ${sprite[1] * 32}px`;
+  }
+
+  function resetIdleAnimation() {
+    idleAnimation = null;
+    idleAnimationFrame = 0;
+  }
+
+  function idle() {
+    idleTime++;
+    if (idleTime > 10 && Math.floor(Math.random() * 200) === 0 && idleAnimation == null) {
+      const idles = ["sleeping", "scratchSelf"];
+      idleAnimation = idles[Math.floor(Math.random() * idles.length)];
+    }
+    switch (idleAnimation) {
+      case "sleeping":
+        if (idleAnimationFrame < 8) { setSprite("tired", 0); break; }
+        setSprite("sleeping", Math.floor(idleAnimationFrame / 4));
+        if (idleAnimationFrame > 192) resetIdleAnimation();
+        break;
+      case "scratchSelf":
+        setSprite("scratchSelf", idleAnimationFrame);
+        if (idleAnimationFrame > 9) resetIdleAnimation();
+        break;
+      default:
+        setSprite("idle", 0);
+        break;
+    }
+    idleAnimationFrame++;
+  }
+
+  function frame() {
+    frameCount++;
+    const diffX = nekoPosX - mousePosX;
+    const diffY = nekoPosY - mousePosY;
+    const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
+
+    if (distance < nekoSpeed || distance < 48) {
+      idle();
+      return;
+    }
+
+    idleAnimation = null;
+    idleAnimationFrame = 0;
+    idleTime = Math.max(0, idleTime - 1);
+
+    if (idleTime > 1) { setSprite("alert", 0); idleTime = Math.min(idleTime, 7); return; }
+
+    const angle = Math.atan2(diffY, diffX);
+    let direction = "";
+    direction += Math.abs(diffY) > Math.abs(diffX) * 0.5 ? (diffY < 0 ? "S" : "N") : "";
+    direction += Math.abs(diffX) > Math.abs(diffY) * 0.5 ? (diffX < 0 ? "E" : "W") : "";
+
+    setSprite(direction || "idle", frameCount);
+
+    nekoPosX -= (diffX / distance) * nekoSpeed;
+    nekoPosY -= (diffY / distance) * nekoSpeed;
+    nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
+    nekoPosY = Math.min(Math.max(16, nekoPosY), window.innerHeight - 16);
+
+    nekoEl.style.left = `${nekoPosX - 16}px`;
+    nekoEl.style.top = `${nekoPosY - 16}px`;
+  }
+
+  init();
+})();
