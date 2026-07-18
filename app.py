@@ -28,12 +28,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload
 
-IS_PRODUCTION = os.environ.get('VERCEL') or os.environ.get('DATABASE_URL')
+IS_PRODUCTION = bool(os.environ.get('VERCEL') or os.environ.get('DATABASE_URL'))
 
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+# SQLite path: use /tmp on Vercel (only writable dir), local uploads folder otherwise
+if IS_PRODUCTION and not os.environ.get('DATABASE_URL'):
+    # Vercel serverless: SQLite must live in /tmp
+    sqlite_path = '/tmp/portfolio.db'
+    database_url = f'sqlite:///{sqlite_path}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+
+UPLOAD_FOLDER = '/tmp/uploads' if IS_PRODUCTION else os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
 ALLOWED_EXTENSIONS = {'pdf'}
-if not IS_PRODUCTION:
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -184,8 +190,13 @@ def init_db():
         # Ensure default content exists
         get_content()
 
-if __name__ == '__main__':
+# Always init DB on import (needed for Vercel serverless where __main__ never runs)
+try:
     init_db()
+except Exception as e:
+    print(f'[WARN] init_db error (non-fatal on cold start): {e}')
+
+if __name__ == '__main__':
     print('[*] Portfolio running at http://localhost:8080')
     print('[*] Admin panel at http://localhost:8080/admin/login')
     app.run(debug=not IS_PRODUCTION, host='0.0.0.0', port=8080)
