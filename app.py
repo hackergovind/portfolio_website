@@ -183,7 +183,7 @@ def init_db():
         # Create default admin user if not exists
         if not AdminUser.query.filter_by(username='govind').first():
             admin = AdminUser(username='govind')
-            admin.set_password('CyberSecurity2026!')
+            admin.set_password('Lemonsec@2006')
             db.session.add(admin)
             db.session.commit()
             print('[OK] Default admin user created: govind / CyberSecurity2026!')
