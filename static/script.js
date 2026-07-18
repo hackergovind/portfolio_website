@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Typing Effect ---
     const typingText = document.getElementById('typing-text');
-    const words = ["I'm a Security Engineer", "I'm a Python Developer", "I'm a Penetration Tester", "I'm a FastAPI Developer", "I'm a DevSecOps Engineer"];
+    const words = ["I'm a Backend Developer", "I'm a Security Analyst"];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
