@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio CMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .admin-sidebar { 
+            width: 220px; flex-shrink: 0;
+            background: var(--color-card);
+            border-right: 1px solid var(--color-border);
+            min-height: 100vh;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .admin-layout { display: flex; }
+        .admin-main { flex: 1; padding: 2rem; }
+        .nav-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.6rem 0.75rem; border-radius: 0.5rem;
+            color: var(--color-secondary); font-size: 0.875rem;
+            cursor: pointer; text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: var(--color-accent);
+            color: var(--color-primary);
+        }
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+        .badge { background: var(--color-primary); color: #000; font-size:0.65rem; padding:0.1rem 0.4rem; border-radius:9999px; font-weight:700; }
+        .input-hint { font-size:0.75rem; color:var(--color-secondary); margin-top:0.25rem; }
+        @media(max-width:768px){ .admin-sidebar{ display:none; } }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div style="margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--color-border);">
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛡️</div>
+                <p class="font-bold text-sm">Portfolio CMS</p>
+                <p class="text-secondary" style="font-size:0.7rem;">Logged in as <strong>{{ current_user.username }}</strong></p>
+            </div>
+
+            <a class="nav-item active" onclick="showSection('hero')" href="#">🏠 Hero Section</a>
+            <a class="nav-item" onclick="showSection('about')" href="#">👤 About Me</a>
+            <a class="nav-item" onclick="showSection('contact')" href="#">📬 Contact & Social</a>
+            <a class="nav-item" onclick="showSection('resume')" href="#">📄 Resume Upload</a>
+
+            <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--color-border); display:flex; flex-direction:column; gap:0.5rem;">
+                <a href="{{ url_for('index') }}" target="_blank" class="nav-item">🌐 View Live Site ↗</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-item" style="color:#f87171;">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div style="margin-bottom:2rem;">
+                <h1 class="text-3xl font-bold">Content Management</h1>
+                <p class="text-secondary text-sm mt-1">Edit your portfolio content. All changes are saved to the database and go live instantly.</p>
+            </div>
+
+            <!-- Alerts -->
+            {% if success %}
+            <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:#86efac; padding:1rem; border-radius:0.5rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">
+                ✅ <strong>Content saved successfully!</strong> Changes are now live on your portfolio.
+            </div>
+            {% endif %}
+            {% if resume_success %}
+            <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:#86efac; padding:1rem; border-radius:0.5rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">
+                📄 <strong>Resume uploaded successfully!</strong> The "Download CV" button is now active.
+            </div>
+            {% endif %}
+            {% if error %}
+            <div style="background:rgba(220,38,38,0.15); border:1px solid rgba(220,38,38,0.4); color:#fca5a5; padding:1rem; border-radius:0.5rem; margin-bottom:1.5rem;">
+                ❌ Error: {{ error }}
+            </div>
+            {% endif %}
+
+            <!-- ALL fields are inside ONE form to submit together -->
+            <form method="post" action="{{ url_for('admin_update') }}">
+
+                <!-- ── HERO SECTION ─────────────────────────────────────── -->
+                <div id="section-hero" class="section-panel active card p-8 bg-card border border-border rounded-xl">
+                    <h2 class="text-xl font-bold mb-6 border-b border-border pb-2">🏠 Hero Section</h2>
+                    <div class="flex-col gap-4">
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Main Headline</label>
+                            <input type="text" name="hero_title" class="form-input" value="{{ content.hero_title }}" required>
+                            <p class="input-hint">The big bold text at the top of the page.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Subtitle / Name Line</label>
+                            <input type="text" name="hero_subtitle" class="form-input" value="{{ content.hero_subtitle }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Tags / Badges Line</label>
+                            <input type="text" name="hero_tags" class="form-input" value="{{ content.hero_tags }}" required>
+                            <p class="input-hint">The emoji-separated skills below your name.</p>
+                        </div>
+                    </div>
+                    <div style="text-align:right; margin-top:1.5rem;">
+                        <button type="submit" class="btn btn-primary">Save All Changes</button>
+                    </div>
+                </div>
+
+                <!-- ── ABOUT ME ─────────────────────────────────────────── -->
+                <div id="section-about" class="section-panel card p-8 bg-card border border-border rounded-xl">
+                    <h2 class="text-xl font-bold mb-6 border-b border-border pb-2">👤 About Me</h2>
+                    <div class="flex-col gap-4">
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Professional Bio</label>
+                            <textarea name="about_bio" class="form-input" rows="8" required>{{ content.about_bio }}</textarea>
+                            <p class="input-hint">Supports line breaks (press Enter for new paragraphs).</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Philosophy / Manifesto Quote</label>
+                            <textarea name="about_philosophy" class="form-input" rows="3" required>{{ content.about_philosophy }}</textarea>
+                            <p class="input-hint">Displayed in the highlighted box in the About section.</p>
+                        </div>
+                    </div>
+                    <div style="text-align:right; margin-top:1.5rem;">
+                        <button type="submit" class="btn btn-primary">Save All Changes</button>
+                    </div>
+                </div>
+
+                <!-- ── CONTACT & SOCIAL ─────────────────────────────────── -->
+                <div id="section-contact" class="section-panel card p-8 bg-card border border-border rounded-xl">
+                    <h2 class="text-xl font-bold mb-6 border-b border-border pb-2">📬 Contact & Social Links</h2>
+                    <div class="flex-col gap-4">
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Email Address</label>
+                            <input type="email" name="contact_email" class="form-input" value="{{ content.contact_email }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Phone Number</label>
+                            <input type="text" name="contact_phone" class="form-input" value="{{ content.contact_phone }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Location</label>
+                            <input type="text" name="contact_location" class="form-input" value="{{ content.contact_location }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">LinkedIn URL</label>
+                            <input type="url" name="linkedin_url" class="form-input" value="{{ content.linkedin_url }}" required placeholder="https://linkedin.com/in/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">GitHub URL</label>
+                            <input type="url" name="github_url" class="form-input" value="{{ content.github_url }}" required placeholder="https://github.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Medium URL</label>
+                            <input type="url" name="medium_url" class="form-input" value="{{ content.medium_url }}" placeholder="https://medium.com/@...">
+                        </div>
+                    </div>
+                    <div style="text-align:right; margin-top:1.5rem;">
+                        <button type="submit" class="btn btn-primary">Save All Changes</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- ── RESUME UPLOAD (separate form due to multipart) ───────── -->
+            <div id="section-resume" class="section-panel card p-8 bg-card border border-border rounded-xl" style="margin-top:0;">
+                <h2 class="text-xl font-bold mb-6 border-b border-border pb-2">📄 Resume Upload</h2>
+                
+                {% if resume_available %}
+                <div style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#86efac; padding:0.75rem 1rem; border-radius:0.5rem; margin-bottom:1.5rem; font-size:0.875rem;">
+                    ✅ Resume is currently uploaded and active. <a href="/uploads/resume.pdf" target="_blank" style="color:#4ade80; text-decoration:underline;">View current resume ↗</a>
+                </div>
+                {% else %}
+                <div style="background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); color:#fbbf24; padding:0.75rem 1rem; border-radius:0.5rem; margin-bottom:1.5rem; font-size:0.875rem;">
+                    ⚠️ No resume uploaded yet. The "Download CV" button is currently inactive.
+                </div>
+                {% endif %}
+
+                <p class="text-secondary text-sm mb-4">Upload your latest CV in PDF format. It instantly replaces the current resume — no server restart needed.</p>
+                <form method="post" action="{{ url_for('admin_upload_resume') }}" enctype="multipart/form-data" class="flex-col gap-4">
+                    <div class="form-group">
+                        <label class="text-sm font-semibold">Select PDF File (Max 16MB)</label>
+                        <input type="file" name="resume_file" accept=".pdf" class="form-input" style="padding:0.5rem;" required>
+                    </div>
+                    <div style="text-align:right;">
+                        <button type="submit" class="btn btn-outline">📤 Upload Resume</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showSection(name) {
+            // Hide all
+            document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // Show target
+            document.getElementById('section-' + name).classList.add('active');
+            // Highlight sidebar link
+            event.currentTarget.classList.add('active');
+            event.preventDefault();
+        }
+    </script>
+</body>
+</html>

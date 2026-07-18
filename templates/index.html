@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Govind Pratap Singh | Security Engineer & Python/FastAPI Developer</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Cybersecurity Professional + Python/FastAPI Developer. NASA VDP Hall of Fame | CVE-2025-61246 Author | Web/API/Mobile Security | Python | FastAPI | Django | Redis | DevSecOps">
+    <meta name="keywords" content="cybersecurity, penetration testing, VAPT, web application security, API security, Python developer, FastAPI, Django, Pydantic, ethical hacking, bug bounty, NASA Hall of Fame, CVE, DevSecOps, Docker, Kubernetes, REST APIs, security engineer, WebSockets, Redis">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Govind Pratap Singh — Security Engineer & Python Developer">
+    <meta property="og:description" content="Building Secure Systems — Breaking Them Too">
+    <meta property="og:image" content="https://ui-avatars.com/api/?name=Govind+Pratap&background=0D8ABC&color=fff&size=512">
+    <meta property="og:url" content="https://govindsingh.dev">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Govind Pratap Singh — Security + Python Developer">
+    <meta name="twitter:description" content="NASA VDP | CVE-2025-61246 | Python | FastAPI | VAPT">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar sticky">
+        <div class="nav-content flex-between">
+            <div class="nav-links flex-center gap-4">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#blog" class="nav-link hidden-mobile">Blog</a>
+                <a href="#terminal" class="nav-link hidden-mobile">Terminal</a>
+            </div>
+            <div class="theme-toggle">
+                <button id="theme-btn" aria-label="Toggle theme" class="btn-icon">
+                    <svg class="sun-icon size-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path></svg>
+                    <svg class="moon-icon size-4 hidden" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M216.7,152.6A100,100,0,1,1,103.4,39.3a8,8,0,0,1,10.5,10.5,84,84,0,0,0,92.3,92.3A8,8,0,0,1,216.7,152.6Z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container min-h-screen pt-4 pb-16">
+        
+        <!-- Hero Section -->
+        <section id="home" class="animate-fade-in-blur mt-8">
+            <div class="profile-img-container">
+                <img alt="Govind Pratap Singh" src="https://ui-avatars.com/api/?name=Govind+Pratap&background=0D8ABC&color=fff&size=256">
+            </div>
+            
+            <div class="mt-8 flex-col gap-2">
+                <h1 class="text-4xl font-bold">{{ content.hero_title }}</h1>
+                <p class="text-lg text-secondary mt-2">{{ content.hero_subtitle }}</p>
+                <p class="text-sm font-semibold mt-1">{{ content.hero_tags }}</p>
+                
+                <div class="typing-container w-fit mt-4">
+                    <span id="typing-text" class="text-primary text-3xl font-bold"></span><span class="cursor text-primary text-3xl font-bold">|</span>
+                </div>
+            </div>
+
+            <div class="mt-8 flex gap-4 flex-wrap">
+                <a href="#projects" class="btn btn-primary btn-inner-shadow">
+                    View My Work
+                </a>
+                {% if resume_available %}
+                <a href="/uploads/resume.pdf" target="_blank" class="btn btn-outline btn-inner-shadow">
+                    Download CV
+                </a>
+                {% else %}
+                <a href="#contact" class="btn btn-outline btn-inner-shadow">
+                    Download CV
+                </a>
+                {% endif %}
+                <a href="#contact" class="btn btn-outline btn-inner-shadow">
+                    Hire Me
+                </a>
+            </div>
+
+            <div class="stats-bar mt-12 grid-cols-2 md-grid-cols-3 gap-4">
+                <div class="stat-item"><span class="stat-icon">🏆</span> NASA VDP Hall of Fame</div>
+                <div class="stat-item"><span class="stat-icon">📝</span> CVE-2025-61246 (9.8)</div>
+                <div class="stat-item"><span class="stat-icon">🐍</span> Python/FastAPI Expert</div>
+                <div class="stat-item"><span class="stat-icon">🔐</span> SOC Operations (50+ Labs)</div>
+                <div class="stat-item"><span class="stat-icon">🚀</span> DevSecOps Practitioner</div>
+                <div class="stat-item"><span class="stat-icon">✍️</span> Technical Writer</div>
+            </div>
+            
+            <div class="mt-8 flex gap-4 social-links">
+                <a href="{{ content.github_url }}" target="_blank" class="social-icon" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68Z"></path></svg></a>
+                <a href="mailto:{{ content.contact_email }}" class="social-icon" aria-label="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path></svg></a>
+                <a href="{{ content.linkedin_url }}" target="_blank" class="social-icon" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path></svg></a>
+                <a href="{{ content.medium_url }}" target="_blank" class="social-icon" aria-label="Medium"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M136,128A64,64,0,1,1,72,64,64.07,64.07,0,0,1,136,128Zm112,0c0,35.35-14.33,64-32,64s-32-28.65-32-64,14.33-64,32-64S248,92.65,248,128Zm-16,0c0-26.51-7.16-48-16-48s-16,21.49-16,48,7.16,48,16,48S232,154.51,232,128Z"></path></svg></a>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8">
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">About Me</p>
+                <h2 class="text-3xl font-bold">My Philosophy</h2>
+            </div>
+            <div class="card p-6 bg-card border border-border rounded-xl">
+                <p class="text-lg leading-relaxed whitespace-pre-wrap">{{ content.about_bio }}</p>
+                <div class="mt-6 p-4 bg-accent rounded-lg border border-border">
+                    <p class="italic text-center font-medium">{{ content.about_philosophy }}</p>
+                </div>
+            </div>
+
+            <!-- 3 Pillar Approach -->
+            <div class="grid-cols-1 md-grid-cols-3 gap-6 mt-8">
+                <div class="pillar-card">
+                    <div class="pillar-icon">🔐</div>
+                    <h3 class="font-bold text-xl mb-2">Security Engineer</h3>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Web/API/Mobile Pentesting</li>
+                        <li>Vulnerability Assessment</li>
+                        <li>OWASP Top 10 | Threat Modeling</li>
+                        <li>Burp Suite | Nmap | Metasploit</li>
+                    </ul>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">🐍</div>
+                    <h3 class="font-bold text-xl mb-2">Backend Developer</h3>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Python | FastAPI | Django</li>
+                        <li>REST APIs | WebSockets</li>
+                        <li>PostgreSQL | Redis | MongoDB</li>
+                        <li>Docker | Kubernetes | CI/CD</li>
+                    </ul>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">🚀</div>
+                    <h3 class="font-bold text-xl mb-2">DevSecOps</h3>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Secure CI/CD Pipelines</li>
+                        <li>Security Automation</li>
+                        <li>Container Security</li>
+                        <li>Infrastructure as Code</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Expertise / Skills Section -->
+        <section id="skills" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8">
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Expertise</p>
+                <h2 class="text-3xl font-bold">Technical Skills</h2>
+            </div>
+            
+            <div class="grid-cols-1 md-grid-cols-2 gap-8 mt-8">
+                <!-- Cybersecurity Skills -->
+                <div class="flex-col gap-6">
+                    <h3 class="text-2xl font-bold border-b border-border pb-2 text-primary">Cybersecurity & SOC</h3>
+                    
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Penetration Testing</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">Web App (VAPT)</span>
+                            <span class="skill-tag">API Security</span>
+                            <span class="skill-tag">Android Pentesting</span>
+                            <span class="skill-tag">Business Logic Testing</span>
+                            <span class="skill-tag">Auth/Authz Testing</span>
+                            <span class="skill-tag">Risk Assessment</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Vulnerability Assessment</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">OWASP Top 10</span>
+                            <span class="skill-tag">SQLi / XSS / IDOR</span>
+                            <span class="skill-tag">Broken Access Control</span>
+                            <span class="skill-tag">CVSS v3.1 Scoring</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Security Operations (SOC)</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">SIEM (Splunk, ELK)</span>
+                            <span class="skill-tag">Incident Response</span>
+                            <span class="skill-tag">Threat Hunting</span>
+                            <span class="skill-tag">Log Analysis</span>
+                            <span class="skill-tag">Alert Triage</span>
+                            <span class="skill-tag">MITRE ATT&CK</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Reconnaissance & Tools</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">Burp Suite Pro</span>
+                            <span class="skill-tag">OWASP ZAP</span>
+                            <span class="skill-tag">Nmap</span>
+                            <span class="skill-tag">Metasploit</span>
+                            <span class="skill-tag">sqlmap / ffuf</span>
+                            <span class="skill-tag">Wireshark</span>
+                            <span class="skill-tag">MobSF / JADX</span>
+                            <span class="skill-tag">OSINT / Amass</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Development Skills -->
+                <div class="flex-col gap-6">
+                    <h3 class="text-2xl font-bold border-b border-border pb-2 text-primary">Backend Development</h3>
+                    
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Python Ecosystem</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">Python 3.12+</span>
+                            <span class="skill-tag">FastAPI</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">Django REST Framework</span>
+                            <span class="skill-tag">Pydantic v2</span>
+                            <span class="skill-tag">SQLAlchemy</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">APIs & Real-Time</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">REST APIs</span>
+                            <span class="skill-tag">WebSockets</span>
+                            <span class="skill-tag">Async/Await</span>
+                            <span class="skill-tag">JWT / OAuth2</span>
+                            <span class="skill-tag">GraphQL</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">Databases & Caching</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">Redis</span>
+                            <span class="skill-tag">Celery</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="text-lg font-bold mb-3">DevOps & Cloud</h4>
+                        <div class="flex-wrap gap-2">
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">GitHub Actions</span>
+                            <span class="skill-tag">Jenkins</span>
+                            <span class="skill-tag">Cloud Deployment</span>
+                            <span class="skill-tag">AWS / GCP</span>
+                            <span class="skill-tag">Nginx</span>
+                            <span class="skill-tag">CI/CD Pipelines</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8">
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Portfolio</p>
+                <h2 class="text-3xl font-bold">Featured Projects</h2>
+            </div>
+            
+            <h3 class="text-xl font-bold mb-4 mt-8">Category: Cybersecurity</h3>
+            <div class="grid-projects">
+                <!-- Project 1: CVE Radar -->
+                <div class="card group">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="CVE Radar">
+                        <div class="card-overlay"><button class="overlay-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48.24-94.78-64-40A8,8,0,0,0,100,88v80a8,8,0,0,0,12.24,6.78l64-40a8,8,0,0,0,0-13.56ZM116,153.57V102.43L156.91,128Z"></path></svg></button></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex-between">
+                            <h3 class="text-xl font-bold hover-primary cursor-pointer">CVE Radar</h3>
+                            <div class="flex gap-2">
+                                <a href="https://cve-radar.nx.kg" target="_blank" class="social-icon p-0" title="Live Site">🌐</a>
+                                <a href="https://github.com/hackergovind/cve-radar" target="_blank" class="social-icon p-0" title="GitHub">🐙</a>
+                            </div>
+                        </div>
+                        <p class="text-neutral text-sm flex-grow">Real-time threat intelligence platform monitoring NIST NVD for CVEs. Features AI-powered analysis with NVIDIA NIM (Llama 3.1) and custom alerts. Helps SOC analysts prioritize vulnerabilities.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: AutoRecon -->
+                <div class="card group">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="AutoRecon">
+                        <div class="card-overlay"><button class="overlay-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48.24-94.78-64-40A8,8,0,0,0,100,88v80a8,8,0,0,0,12.24,6.78l64-40a8,8,0,0,0,0-13.56ZM116,153.57V102.43L156.91,128Z"></path></svg></button></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex-between">
+                            <h3 class="text-xl font-bold hover-primary cursor-pointer">AutoRecon</h3>
+                            <div class="flex gap-2">
+                                <a href="https://github.com/hackergovind/autorecon" target="_blank" class="social-icon p-0" title="GitHub">🐙</a>
+                            </div>
+                        </div>
+                        <p class="text-neutral text-sm flex-grow">Automated reconnaissance framework integrating Amass, Subfinder, Nmap, Nikto, ffuf, and Waybackurls for attack surface mapping and vulnerability correlation.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">OSINT</span><span class="tag">Nmap</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4 mt-12">Category: Python + FastAPI (Backend Projects)</h3>
+            <div class="grid-projects">
+                <!-- Project 3: CVE Radar FastAPI -->
+                <div class="card group">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold hover-primary cursor-pointer">Secure REST API with FastAPI</h3>
+                        <p class="text-neutral text-sm flex-grow">Production-ready REST API with FastAPI, JWT authentication, role-based access control, PostgreSQL via SQLAlchemy, Redis caching, and Docker containerization. Fully async with Pydantic v2 validation.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Django REST -->
+                <div class="card group">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold hover-primary cursor-pointer">Vulnerability Tracker API (Django REST)</h3>
+                        <p class="text-neutral text-sm flex-grow">Comprehensive Django REST Framework API for tracking CVEs and vulnerabilities. Includes CVSS scoring, Celery async notifications, bulk NVD JSON imports, and custom status workflows.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">Python</span><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Celery</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: WebSocket -->
+                <div class="card group">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold hover-primary cursor-pointer">Real-Time Threat Feed (FastAPI + WebSockets)</h3>
+                        <p class="text-neutral text-sm flex-grow">Live threat intelligence feed using FastAPI WebSockets and Redis pub/sub. Streams newly published CVEs to connected dashboards in real-time. Deployed via Docker + Kubernetes.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">FastAPI</span><span class="tag">WebSockets</span><span class="tag">Redis</span><span class="tag">Kubernetes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: DevSecOps -->
+                <div class="card group">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold hover-primary cursor-pointer">DevSecOps CI/CD Pipeline</h3>
+                        <p class="text-neutral text-sm flex-grow">Automated security-integrated CI/CD pipeline using GitHub Actions and Jenkins. Includes SAST, dependency scanning, Docker image scanning, and cloud deployment to AWS/GCP.</p>
+                        <div class="flex-wrap gap-2 text-xs mt-2">
+                            <span class="tag">GitHub Actions</span><span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements & Certs -->
+        <section id="experience" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8">
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Journey</p>
+                <h2 class="text-3xl font-bold">Achievements & Certifications</h2>
+            </div>
+            
+            <div class="flex-col gap-6 mt-8">
+                <div class="achievement-card highlight-border">
+                    <div class="flex-between">
+                        <h3 class="text-xl font-bold text-primary">🏆 NASA VDP Hall of Fame</h3>
+                        <a href="https://bugcrowd.com/disclosures/121d979a-b47e-4b70-b464-eb6d0013a52b/public-exposure-of-nasa-center-staff-contact-information-arc-afrc-grc" target="_blank" class="text-sm font-semibold hover-primary underline">View Disclosure</a>
+                    </div>
+                    <p class="text-sm text-neutral mt-2">Inducted for responsible disclosure of security vulnerabilities impacting NASA's public-facing infrastructure. Recognized by Bugcrowd.</p>
+                </div>
+
+                <div class="achievement-card highlight-border">
+                    <div class="flex-between">
+                        <h3 class="text-xl font-bold text-primary">🚨 CVE-2025-61246 Author</h3>
+                        <a href="https://www.cve.org/CVERecord?id=CVE-2025-61246" target="_blank" class="text-sm font-semibold hover-primary underline">View CVE</a>
+                    </div>
+                    <p class="text-sm text-neutral mt-2">Discovered and published a Critical SQL Injection vulnerability (CVSS 9.8). Provided a full PoC exploit, remediation guidance, and a Docker-based vulnerable lab environment.</p>
+                </div>
+
+                <div class="grid-cols-1 md-grid-cols-2 gap-6 mt-4">
+                    <div class="achievement-card">
+                        <h4 class="font-bold mb-4">Certifications</h4>
+                        <ul class="text-sm text-secondary space-y-3 list-disc pl-4">
+                            <li><a href="#" class="hover-primary">eJPT v2 (INE Security Junior Penetration Tester) — 2025</a></li>
+                            <li><a href="#" class="hover-primary">Google Cybersecurity Professional Certificate — 2025</a>
+                            <p class="text-xs mt-1 text-neutral">→ Covered: SIEM tools (Splunk, Chronicle), network security, incident response, Linux, Python automation, NIST, and MITRE ATT&CK.</p></li>
+                            <li><a href="#" class="hover-primary">Certified Red Team Analyst (CRTA) — 2025</a></li>
+                            <li><a href="#" class="hover-primary">ICCA (INE Security Certified Cybersecurity Analyst)</a></li>
+                        </ul>
+                    </div>
+                    <div class="achievement-card">
+                        <h4 class="font-bold mb-4">Quick Stats</h4>
+                        <ul class="text-sm text-secondary space-y-3">
+                            <li>🎯 TryHackMe Top 9% Global Rank (50+ Labs in SOC, CTI, Pentesting, Blue Team)</li>
+                            <li>🔍 15+ Vulnerabilities found during Internship</li>
+                            <li>🚀 500+ Daily Active Users on CVE Radar</li>
+                            <li>✍️ 15+ Technical articles (4000+ total reads)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8">
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Writing</p>
+                <h2 class="text-3xl font-bold">Technical Articles</h2>
+            </div>
+            
+            <div class="grid-cols-1 md-grid-cols-2 gap-8 mt-8">
+                <div class="flex-col gap-4">
+                    <h3 class="text-lg font-bold border-b border-border pb-2">Cybersecurity (Medium)</h3>
+                    <ul class="text-sm text-secondary space-y-3">
+                        <li class="hover-primary cursor-pointer transition-colors">1. How I Found My First CVE: SQL Injection Deep Dive</li>
+                        <li class="hover-primary cursor-pointer transition-colors">2. NASA VDP Hall of Fame — My Responsible Disclosure Journey</li>
+                        <li class="hover-primary cursor-pointer transition-colors">3. OWASP Top 10: Practical Exploitation Guide for Beginners</li>
+                        <li class="hover-primary cursor-pointer transition-colors">4. Red Team 101: Complete Reconnaissance Methodology</li>
+                        <li class="hover-primary cursor-pointer transition-colors">5. XSS to RCE: Chaining Vulnerabilities for Maximum Impact</li>
+                        <li class="hover-primary cursor-pointer transition-colors">6. SOC 101: SIEM Log Analysis for Beginners</li>
+                        <li class="hover-primary cursor-pointer transition-colors">7. Incident Response Lifecycle: From Detection to Recovery</li>
+                    </ul>
+                </div>
+                <div class="flex-col gap-4">
+                    <h3 class="text-lg font-bold border-b border-border pb-2">Python & FastAPI (Backend Focus)</h3>
+                    <ul class="text-sm text-secondary space-y-3">
+                        <li class="hover-primary cursor-pointer transition-colors">1. FastAPI Deep Dive: Building Async REST APIs with Python</li>
+                        <li class="hover-primary cursor-pointer transition-colors">2. Django REST Framework: Complete Security Guide</li>
+                        <li class="hover-primary cursor-pointer transition-colors">3. Secure Coding in Python: OWASP Top 10 for Developers</li>
+                        <li class="hover-primary cursor-pointer transition-colors">4. DevSecOps: Integrating Security in CI/CD Pipelines</li>
+                        <li class="hover-primary cursor-pointer transition-colors">5. WebSockets with FastAPI: Real-Time APIs Guide</li>
+                        <li class="hover-primary cursor-pointer transition-colors">6. Docker + Kubernetes: Deploying Python Apps at Scale</li>
+                        <li class="hover-primary cursor-pointer transition-colors">7. Redis + Celery: Async Task Queues in Python</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="grid-cols-1 md-grid-cols-3 gap-6">
+                <div class="card p-6 bg-accent border border-border rounded-xl">
+                    <p class="italic text-sm text-secondary">"Govind's security findings helped us prevent a major data breach. His reports are detailed, actionable, and developer-friendly."</p>
+                    <p class="font-bold text-sm mt-4">— Ceeras IT Services</p>
+                </div>
+                <div class="card p-6 bg-accent border border-border rounded-xl">
+                    <p class="italic text-sm text-secondary">"One of the most dedicated security researchers I've worked with. His approach to vulnerability discovery is methodical and thorough."</p>
+                    <p class="font-bold text-sm mt-4">— Bugcrowd Community</p>
+                </div>
+                <div class="card p-6 bg-accent border border-border rounded-xl">
+                    <p class="italic text-sm text-secondary">"Govind's dual expertise in security and software development is rare. He doesn't just report vulnerabilities — he provides production-ready fixes."</p>
+                    <p class="font-bold text-sm mt-4">— Open Source Contributor</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Terminal -->
+        <section id="terminal" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold">Interactive Terminal (Bonus)</h2>
+                <p class="text-sm text-secondary">Type 'help' to see available commands.</p>
+            </div>
+            <div class="terminal-container">
+                <div class="terminal-header">
+                    <div class="terminal-dots"><span></span><span></span><span></span></div>
+                    <div class="terminal-title">govind@portfolio:~</div>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-line"><span class="prompt">govind@portfolio:~$</span> <span class="typing">Welcome to Govind's Portfolio Shell v1.0.0</span></div>
+                </div>
+                <div class="terminal-input-line">
+                    <span class="prompt">govind@portfolio:~$</span>
+                    <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mt-24 scroll-animate opacity-0 translate-y-4">
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-bold">Get In Touch</h2>
+                <p class="text-secondary mt-2">Open for pentesting, security engineering, and Python/FastAPI developer roles.</p>
+            </div>
+            
+            <div class="grid-cols-1 md-grid-cols-2 gap-8">
+                <div class="card bg-card p-8 border border-border rounded-xl">
+                    <form class="flex-col gap-4" id="contact-form">
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Name</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Email</label>
+                            <input type="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Subject</label>
+                            <select class="form-input" required>
+                                <option>Cybersecurity Consulting</option>
+                                <option>Backend Development</option>
+                                <option>Collaboration</option>
+                                <option>Career Opportunity</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-sm font-semibold">Message</label>
+                            <textarea class="form-input min-h-[100px]" placeholder="Hello Govind..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-inner-shadow w-full mt-2">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="flex-col gap-6 justify-center">
+                    <div class="contact-info">
+                        <h4 class="font-bold text-lg mb-4">Contact Information</h4>
+                        <p class="text-secondary flex gap-2 items-center mb-2">📧 {{ content.contact_email }}</p>
+                        <p class="text-secondary flex gap-2 items-center mb-2">📱 {{ content.contact_phone }}</p>
+                        <p class="text-secondary flex gap-2 items-center mb-2">📍 {{ content.contact_location }}</p>
+                    </div>
+                    <div class="contact-status mt-4">
+                        <h4 class="font-bold text-lg mb-4">🚀 Currently Open For:</h4>
+                        <ul class="text-sm text-secondary space-y-2">
+                            <li>✓ Penetration Testing Engagements</li>
+                            <li>✓ Security Engineering Roles</li>
+                            <li>✓ Python/FastAPI Backend Developer Positions</li>
+                            <li>✓ DevSecOps Opportunities</li>
+                            <li>✓ Freelance Security Consulting</li>
+                            <li>✓ Open Source Collaboration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer border-t border-border py-8 text-center text-sm text-neutral mt-8">
+        <p>&copy; 2026 Govind Pratap Singh. Building Secure Backend Systems.</p>
+        <div class="flex-center gap-4 mt-4">
+            {% if resume_available %}
+            <a href="/uploads/resume.pdf" target="_blank" class="hover-primary underline">Download CV</a>
+            {% endif %}
+            <a href="#home" class="hover-primary underline">Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        window.dynamicContact = "📧 {{ content.contact_email }}\n📱 {{ content.contact_phone }}\n🔗 {{ content.linkedin_url }}\n🐙 {{ content.github_url }}\n📝 {{ content.medium_url }}";
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

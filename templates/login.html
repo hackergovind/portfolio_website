@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="antialiased" style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+    <div class="card p-8 bg-card border border-border rounded-xl" style="max-width:400px; width:100%;">
+        <div style="text-align:center; margin-bottom:2rem;">
+            <div style="font-size:2.5rem; margin-bottom:0.5rem;">🛡️</div>
+            <h2 class="text-2xl font-bold">Admin Login</h2>
+            <p class="text-secondary text-sm mt-1">Portfolio Management Panel</p>
+        </div>
+
+        {% if error %}
+        <div style="background: rgba(220,38,38,0.15); border:1px solid rgba(220,38,38,0.4); color:#fca5a5; padding:0.75rem 1rem; border-radius:0.5rem; margin-bottom:1.5rem; font-size:0.875rem; text-align:center;">
+            ❌ {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post" class="flex-col gap-4">
+            <div class="form-group">
+                <label class="text-sm font-semibold">Username</label>
+                <input type="text" name="username" class="form-input" required autofocus placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="text-sm font-semibold">Password</label>
+                <input type="password" name="password" class="form-input" required placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary w-full" style="margin-top:0.5rem;">Login to Admin Panel</button>
+        </form>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <a href="{{ url_for('index') }}" class="text-sm text-secondary hover-primary">← Back to Portfolio</a>
+        </div>
+    </div>
+</body>
+</html>
