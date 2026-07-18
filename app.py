@@ -180,13 +180,14 @@ def admin_upload_resume():
 def init_db():
     with app.app_context():
         db.create_all()
-        # Create default admin user if not exists
-        if not AdminUser.query.filter_by(username='govind').first():
+        # Ensure default admin user exists and has the correct password
+        admin = AdminUser.query.filter_by(username='govind').first()
+        if not admin:
             admin = AdminUser(username='govind')
-            admin.set_password('Lemonsec@2006')
             db.session.add(admin)
-            db.session.commit()
-            print('[OK] Default admin user created: govind / CyberSecurity2026!')
+        admin.set_password('Lemonsec@2006')
+        db.session.commit()
+        print('[OK] Admin user govind initialized with password Lemonsec@2006')
         # Ensure default content exists
         get_content()
 
