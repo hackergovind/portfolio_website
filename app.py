@@ -62,17 +62,17 @@ class AdminUser(UserMixin, db.Model):
 class PortfolioContent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hero_title = db.Column(db.String(255), default='Building Secure Systems — Breaking Them Too')
-    hero_subtitle = db.Column(db.String(255), default='Govind Pratap Singh | Security Engineer & Python/FastAPI Developer')
-    hero_tags = db.Column(db.String(255), default='🔒 Web/API/Mobile Security | 🐍 Python/FastAPI Backend | 🚀 DevSecOps')
-    about_bio = db.Column(db.Text, default='"I\'m a Cybersecurity Professional and Python/FastAPI Backend Developer with a unique blend of offensive security expertise and backend engineering skills. I don\'t just find vulnerabilities — I build secure backend systems from the ground up. Recognized in NASA\'s VDP Hall of Fame and author of CVE-2025-61246 (CVSS 9.8), I bring real-world security experience to every project."\n\n"Beyond offensive security, I possess strong foundational knowledge in Security Operations (SOC) — including SIEM monitoring, log analysis, incident response, and threat hunting — gained through 50+ hands-on labs on TryHackMe and the Google Cybersecurity Professional Certificate curriculum."')
-    about_philosophy = db.Column(db.String(1000), default='"I believe security is not a feature — it\'s a mindset. Every line of backend code I write is secured by default, and every vulnerability I find teaches me how to write better code."')
+    hero_subtitle = db.Column(db.String(255), default='Govind Pratap Singh')
+    hero_tags = db.Column(db.String(255), default='Security Engineer · Python/FastAPI Dev · CVE-2025-61246 Author')
+    about_bio = db.Column(db.Text, default='Cybersecurity professional and FastAPI backend developer with a unique offensive-to-defensive skillset. Author of CVE-2025-61246 (CVSS 9.8) and NASA VDP Hall of Fame inductee. I build secure backend systems and break insecure ones—because security isn\'t a feature, it\'s a mindset.')
+    about_philosophy = db.Column(db.String(1000), default='Security isn\'t a feature, it\'s a mindset.')
     contact_email = db.Column(db.String(255), default='govindsinghpratap123@gmail.com')
     contact_phone = db.Column(db.String(100), default='+91 6396448562')
     contact_location = db.Column(db.String(255), default='Bareilly, Uttar Pradesh, India')
     linkedin_url = db.Column(db.String(255), default='https://linkedin.com/in/govindpratapsingh404')
     github_url = db.Column(db.String(255), default='https://github.com/hackergovind')
     medium_url = db.Column(db.String(255), default='https://medium.com/@hackergovind')
-    resume_filename = db.Column(db.String(255), default=None)
+    resume_filename = db.Column(db.String(255), default='resume.pdf')
 
 # ─── Auth ─────────────────────────────────────────────────────────────────────
 @login_manager.user_loader

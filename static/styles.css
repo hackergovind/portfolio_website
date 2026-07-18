@@ -5,14 +5,17 @@
     --text-secondary: #71717a;
     --border-color: #e4e4e7;
     --card-bg: #ffffff;
-    --primary: #18181b;
-    --primary-foreground: #fafafa;
+    --primary: #059669;
+    --primary-foreground: #ffffff;
     --accent: #f4f4f5;
     --btn-shadow: inset 0 1px 0 rgba(255,255,255,.2);
     --skill-bg: rgba(0,0,0,0.05);
     --skill-border: rgba(0,0,0,0.2);
     --term-bg: #1e1e1e;
     --term-text: #00ff00;
+    --cyber-green: #059669;
+    --cyber-green-bg: rgba(5, 150, 105, 0.1);
+    --cyber-green-border: rgba(5, 150, 105, 0.2);
 }
 
 [data-theme="dark"] {
@@ -22,14 +25,17 @@
     --text-secondary: #a1a1aa;
     --border-color: #27272a;
     --card-bg: #09090b;
-    --primary: #fafafa;
-    --primary-foreground: #18181b;
+    --primary: #0dfc95;
+    --primary-foreground: #09090b;
     --accent: #18181b;
     --btn-shadow: inset 0 1px 0 rgba(255,255,255,.2);
-    --skill-bg: rgba(255,255,255,0.1);
-    --skill-border: rgba(255,255,255,0.2);
+    --skill-bg: rgba(255,255,255,0.05);
+    --skill-border: rgba(255,255,255,0.1);
     --term-bg: #000000;
     --term-text: #00ff00;
+    --cyber-green: #0dfc95;
+    --cyber-green-bg: rgba(13, 252, 149, 0.1);
+    --cyber-green-border: rgba(13, 252, 149, 0.2);
 }
 
 * {
@@ -461,3 +467,131 @@ body {
 
 .scroll-animate { transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .scroll-animate.visible { opacity: 1; transform: translateY(0); }
+
+/* Custom Badge Styles (Open to Work) */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: fit-content;
+}
+.badge-green {
+    background-color: var(--cyber-green-bg);
+    color: var(--cyber-green);
+    border: 1px solid var(--cyber-green-border);
+}
+.badge-dot {
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--cyber-green);
+    border-radius: 50%;
+}
+.badge-dot::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--cyber-green);
+    border-radius: 50%;
+    animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+    75%, 100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Stats Ribbon Styles */
+.stats-ribbon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0.875rem 1.5rem;
+    background-color: var(--accent);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+.stats-ribbon-item {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.stats-ribbon-divider {
+    color: var(--border-color);
+    font-weight: 300;
+}
+@media (max-width: 767px) {
+    .stats-ribbon {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .stats-ribbon-divider {
+        display: none;
+    }
+}
+
+/* Certs Grid Styles */
+.certs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+    .certs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.cert-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.cert-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+.cert-icon {
+    font-size: 1.5rem;
+    background-color: var(--accent);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cert-info h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+.cert-info p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.125rem;
+}
+
+/* Bullet list override for certs */
+.list-disc {
+    list-style-type: disc !important;
+}
